@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Jake Yesbeck"]
   s.email       = ["jake@verticalbrands.com"]
   s.homepage    = ""
-  s.summary     = %q{A ruby implementation of the Yesmail subscribe-and-send api}
-  s.description = %q{A ruby implementation of the Yesmail subscribe-and-send api}
+  s.summary     = %q{Interface to Yesmail email campaign service}
+  s.description = %q{Interface to Yesmail email campaign service}
 
   s.rubyforge_project = "yesmail"
 
@@ -22,7 +22,10 @@ Gem::Specification.new do |s|
   # s.add_development_dependency "rspec"
   # s.add_runtime_dependency "rest-client"
   s.add_dependency 'httparty'
+  # I can't get the following to work...
+  # s.add_dependency 'log_mixin', :git => 'https://github.com/verticalbrands/log_mixin.git'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rr'
-  s.add_development_dependency 'faker'
+  s.add_development_dependency 'awesome_print'
+
 end
