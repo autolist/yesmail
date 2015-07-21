@@ -16,17 +16,21 @@
 #
 
 require 'json'
-require 'log_mixin'
 
 module Yesmail
   class Subscriber
-    include ::LogMixin
 
     # @attribute email [String] The email that will receive a Yesmail email
     # @attribute name [String] The name of the user
     # @attribute attribute_data [Hash] used for any extra data in the user
     #     attributes
     attr_accessor :email, :name, :user_id, :attribute_data
+    # @attribute allow_resubscribe [true|false] whether to resubscribe this user when updating or creating. default true
+    attr_accessor :allow_resubscribe
+
+    def initialize
+      self.allow_resubscribe = true
+    end
 
     def path
       '/subscribers'
@@ -83,7 +87,7 @@ module Yesmail
       user_id = self.user_id || get_user_id_from_email
       data_hash = make_hash
       #allowResubscribe must be true when resubscribing a subscriber
-      data_hash[:allowResubscribe] = true
+      data_hash[:allowResubscribe] = allow_resubscribe
       handler.update(data_hash, path, user_id)
     end
 
@@ -135,7 +139,7 @@ module Yesmail
     def api_create_and_send(master, side_table = nil)
       data = { subscriber: make_hash }
       data[:subscriberMessage] =  master.subscriber_message_data
-      data[:subscriber][:allowResubscribe] = true
+      data[:subscriber][:allowResubscribe] = allow_resubscribe
       data[:sideTable] = side_table.payload_hash unless side_table.nil?
 
       path = '/composite/subscribeAndSend'

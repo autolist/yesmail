@@ -68,6 +68,24 @@ module Yesmail
 
         subscriber.api_update
       end
+
+      context 'if allow_resubscribe is set to false explicitly' do
+        before do
+          subscriber.allow_resubscribe = false
+        end
+
+        it 'sets allowResubscribe to false' do
+          stub(subscriber).get_user_id_from_email { 1 }
+
+          mock(subscriber.handler).update(
+            post_data = hash_including(allowResubscribe: false),
+            path      = anything,
+            object_id = anything
+          )
+
+          subscriber.api_update
+        end
+      end
     end
 
   end
